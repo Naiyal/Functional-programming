@@ -76,7 +76,7 @@ sumPrimesModular limit = foldr (+) 0 (generatePrimes limit)
 ```
 
 
-**3. Генерация последовательности с использованием map*
+**3. Генерация последовательности с использованием map**
 
 
 ```haskell
@@ -84,7 +84,7 @@ sumPrimesMap :: Integer -> Integer
 sumPrimesMap limit = sum $ map (\x -> if isPrime x then x else 0) [2..limit-1]
 
 ```
-**4. Специальный синтаксис для циклов*
+**4. Специальный синтаксис для циклов**
 
 **Haskell не имеет обычного цикла for, однако можно использовать do-нотацию для списочных вычислений:**
 
@@ -94,7 +94,7 @@ sumPrimesDo limit = sum [x | x <- [2..limit-1], isPrime x]
 
 ```
 
-**5. Работа с бесконечными списками (ленивые коллекции)*
+**5. Работа с бесконечными списками (ленивые коллекции)**
 
 
 ```haskell
@@ -107,3 +107,54 @@ sumPrimesLazy limit = sum $ takeWhile (< limit) primes
 
 
 ```
+
+**6. Сравнение с кодом Python**
+
+
+```Python
+import math
+
+def is_prime(n):
+    """Проверка, является ли число простым."""
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    for i in range(5, int(math.sqrt(n)) + 1, 6):
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+    return True
+
+def sum_primes(limit):
+    """Рекурсивная функция для суммы простых чисел."""
+    return sum(n for n in range(2, limit) if is_prime(n))
+
+# Использование
+result = sum_primes(2000000)
+print(result)
+
+
+```
+
+**Тестирвоание**
+
+
+```haskell
+-- Тесты для задачи 1: Сумма простых чисел
+testSumPrimes :: Test
+testSumPrimes = TestList [
+    TestCase (assertEqual "sumPrimesTail 10" (sumPrimesTail 10) 17),
+    TestCase (assertEqual "sumPrimesRecursion 10" (sumPrimesRecursion 10) 17),
+    TestCase (assertEqual "sumPrimesModular 10" (sumPrimesModular 10) 17),
+    TestCase (assertEqual "sumPrimesMap 10" (sumPrimesMap 10) 17),
+    TestCase (assertEqual "sumPrimesDo 10" (sumPrimesDo 10) 17),
+    TestCase (assertEqual "sumPrimesLazy 10" (sumPrimesLazy 10) 17),
+    TestCase (assertEqual "sumPrimesTail 2000000" (sumPrimesTail 2000000) 142913828922)
+    ]
+
+```
+
+
+
