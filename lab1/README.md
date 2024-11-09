@@ -88,7 +88,6 @@ sumPrimesMap limit = sum $ map (\x -> if isPrime x then x else 0) [2..limit-1]
 ```
 **4. Специальный синтаксис для циклов**
 
-**Haskell не имеет обычного цикла for, однако можно использовать do-нотацию для списочных вычислений:**
 
 ```haskell
 sumPrimesDo :: Integer -> Integer
