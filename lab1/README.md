@@ -157,4 +157,131 @@ testSumPrimes = TestList [
 ```
 
 
+---
+
+### Задача 2 : Сумма дружественных чисел до 10000
+
+**1.Монолитная реализация**
+
+- **С использованием хвостовой рекурсии:**
+
+```haskell
+amicableNumbersTail :: Integer -> Integer
+amicableNumbersTail limit = go 1 0
+  where
+    go n acc
+      | n >= limit = acc
+      | isAmicable n = go (n + 1) (acc + n)
+      | otherwise    = go (n + 1) acc
+
+isAmicable :: Integer -> Bool
+isAmicable a = let b = sumDivisors a in b /= a && sumDivisors b == a
+
+sumDivisors :: Integer -> Integer
+sumDivisors n = sum [x | x <- [1 .. n `div` 2], n `mod` x == 0]
+
+
+```
+
+- **С использованием обычной рекурсии:**
+
+```haskell
+amicableNumbersRecursion :: Integer -> Integer
+amicableNumbersRecursion limit = sumAmicableHelper 1
+  where
+    sumAmicableHelper n
+      | n >= limit = 0
+      | isAmicable n = n + sumAmicableHelper (n + 1)
+      | otherwise    = sumAmicableHelper (n + 1)
+
+
+```
+**2.Модулярное решение (разделение на генерацию, фильтрацию, свёртку)**
+
+
+```haskell
+generateAmicableNumbers :: Integer -> [Integer]
+generateAmicableNumbers limit = filter isAmicable [1..limit-1]
+
+sumAmicableNumbersModular :: Integer -> Integer
+sumAmicableNumbersModular limit = foldr (+) 0 (generateAmicableNumbers limit)
+
+```
+
+
+**3. Генерация последовательности с использованием map**
+
+
+```haskell
+sumAmicableNumbersMap :: Integer -> Integer
+sumAmicableNumbersMap limit = sum $ map (\x -> if isAmicable x then x else 0) [1..limit-1]
+
+
+```
+**4. Специальный синтаксис для циклов**
+
+```haskell
+sumAmicableNumbersDo :: Integer -> Integer
+sumAmicableNumbersDo limit = sum [x | x <- [1..limit-1], isAmicable x]
+
+
+```
+
+**5. Работа с бесконечными списками (ленивые коллекции)**
+
+
+```haskell
+amicableNumbersLazy :: Integer -> Integer
+amicableNumbersLazy limit = sum $ takeWhile (< limit) (filter isAmicable [1..])
+
+
+```
+
+**6. Сравнение с кодом Python**
+
+
+```Python
+def sum_of_divisors(n):
+    """Вычисление суммы делителей числа."""
+    return sum(x for x in range(1, n // 2 + 1) if n % x == 0)
+
+def sum_amicable(limit):
+    """Рекурсивная функция для суммы дружественных чисел."""
+    total = 0
+    for a in range(2, limit):
+        b = sum_of_divisors(a)
+        if a != b and sum_of_divisors(b) == a:
+            total += a
+    return total
+
+# Использование
+result = sum_amicable(10000)
+print(result)
+
+
+
+```
+
+**Тестирвоание**
+
+
+```haskell
+-- Тесты для задачи 2: Сумма дружественных чисел
+testAmicableNumbers :: Test
+testAmicableNumbers = TestList [
+    TestCase (assertEqual "amicableNumbersTail 10000" (amicableNumbersTail 10000) 31626),
+    TestCase (assertEqual "amicableNumbersRecursion 10000" (amicableNumbersRecursion 10000) 31626),
+    TestCase (assertEqual "sumAmicableNumbersModular 10000" (sumAmicableNumbersModular 10000) 31626),
+    TestCase (assertEqual "sumAmicableNumbersMap 10000" (sumAmicableNumbersMap 10000) 31626),
+    TestCase (assertEqual "sumAmicableNumbersDo 10000" (sumAmicableNumbersDo 10000) 31626),
+    TestCase (assertEqual "amicableNumbersLazy 10000" (amicableNumbersLazy 10000) 31626)
+    ]
+
+```
+
+---
+##Выводы
+
+###Представленные решения демонстрируют разные подходы к решению задач с использованием функционального программирования в haskell. Эти примеры показывают, как рекурсия, циклы и функции высшего порядка могут быть использованы для эффективного решения математических задач.
+
 
