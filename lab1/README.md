@@ -29,9 +29,9 @@
 
 ## Ключевые элементы реализации
 
-### Задача 1: Сумма простых чисел ниже двух миллионов
+### Задача 1 : Сумма простых чисел ниже двух миллионов
 
-1.**Монолитная реализация**
+**1.Монолитная реализация**
 
 - **С использованием хвостовой рекурсии:**
 
@@ -49,18 +49,61 @@ isPrime n = n > 1 && all (\x -> n `mod` x /= 0) [2 .. (floor . sqrt $ fromIntegr
 
 ```
 
-- **С использованием хвостовой рекурсии:**
+- **С использованием обычной рекурсии:**
 
 ```haskell
-sumPrimesTail :: Integer -> Integer
-sumPrimesTail limit = go 2 0
+sumPrimesRecursion :: Integer -> Integer
+sumPrimesRecursion limit = sumPrimesHelper 2
   where
-    go n acc
-      | n >= limit = acc
-      | isPrime n  = go (n + 1) (acc + n)
-      | otherwise  = go (n + 1) acc
+    sumPrimesHelper n
+      | n >= limit = 0
+      | isPrime n  = n + sumPrimesHelper (n + 1)
+      | otherwise  = sumPrimesHelper (n + 1)
 
-isPrime :: Integer -> Bool
-isPrime n = n > 1 && all (\x -> n `mod` x /= 0) [2 .. (floor . sqrt $ fromIntegral n)]
+```
+**2.Модулярное решение (разделение на генерацию, фильтрацию, свёртку)**
+
+
+```haskell
+-- Генерация последовательности чисел
+generatePrimes :: Integer -> [Integer]
+generatePrimes limit = filter isPrime [2..limit-1]
+
+-- Фильтрация простых чисел и свёртка с суммой
+sumPrimesModular :: Integer -> Integer
+sumPrimesModular limit = foldr (+) 0 (generatePrimes limit)
+
+```
+
+
+**3. Генерация последовательности с использованием map*
+
+
+```haskell
+sumPrimesMap :: Integer -> Integer
+sumPrimesMap limit = sum $ map (\x -> if isPrime x then x else 0) [2..limit-1]
+
+```
+**4. Специальный синтаксис для циклов*
+
+**Haskell не имеет обычного цикла for, однако можно использовать do-нотацию для списочных вычислений:**
+
+```haskell
+sumPrimesDo :: Integer -> Integer
+sumPrimesDo limit = sum [x | x <- [2..limit-1], isPrime x]
+
+```
+
+**5. Работа с бесконечными списками (ленивые коллекции)*
+
+
+```haskell
+-- Генерация бесконечного списка простых чисел
+primes :: [Integer]
+primes = filter isPrime [2..]
+
+sumPrimesLazy :: Integer -> Integer
+sumPrimesLazy limit = sum $ takeWhile (< limit) primes
+
 
 ```
