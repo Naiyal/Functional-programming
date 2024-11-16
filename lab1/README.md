@@ -359,7 +359,6 @@ In Haskell, `foldl` and `foldr` are two functions used to perform folding operat
 ## 1. `foldl` (fold left)
 
 - **Definition**: `foldl` stands for "fold from the left". It starts folding the list from the left-most element, applying the function cumulatively to the list.
-- **How it works**: The function starts from the first element and applies the folding function to it, then moves on to the next element, and so on, until the end of the list.
 
 ### Signature:
 ```haskell
@@ -382,6 +381,9 @@ sumList [1, 2, 3, 4]
 
 ```
 ## 2. `foldr` (fold right)
+
+- **Definition: `foldr` stands for "fold from the right". It starts folding the list from the right-most element, applying the function cumulatively.
+
 
 ### Signature:
 ```haskell
