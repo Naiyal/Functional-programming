@@ -382,7 +382,7 @@ sumList [1, 2, 3, 4]
 ```
 ## 2. `foldr` (fold right)
 
-- **Definition: `foldr` stands for "fold from the right". It starts folding the list from the right-most element, applying the function cumulatively.
+- **Definition**: `foldr` stands for "fold from the right". It starts folding the list from the right-most element, applying the function cumulatively.
 
 
 ### Signature:
