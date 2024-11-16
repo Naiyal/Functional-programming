@@ -350,3 +350,57 @@ True
 #### Представленные решения демонстрируют разные подходы к решению задач с использованием функционального программирования в haskell.
 
 
+---
+
+# Difference Between `foldl` and `foldr` in Haskell
+
+In Haskell, `foldl` and `foldr` are two functions used to perform folding operations on lists (or other foldable data structures). They are very similar in purpose, but differ in how they process the list, especially in terms of the direction in which they operate. Here's an explanation of the differences between them.
+
+## 1. `foldl` (fold left)
+
+- **Definition**: `foldl` stands for "fold from the left". It starts folding the list from the left-most element, applying the function cumulatively to the list.
+- **How it works**: The function starts from the first element and applies the folding function to it, then moves on to the next element, and so on, until the end of the list.
+
+### Signature:
+```haskell
+foldl :: (b -> a -> b) -> b -> [a] -> b
+```
+
+### Example:
+
+```haskell
+sumList :: [Int] -> Int
+sumList = foldl (+) 0
+```
+
+```haskell
+sumList [1, 2, 3, 4]
+-- 0 + 1 = 1
+-- 1 + 2 = 3
+-- 3 + 3 = 6
+-- 6 + 4 = 10
+
+```
+## 2. `foldr` (fold right)
+
+### Signature:
+```haskell
+foldr :: (a -> b -> b) -> b -> [a] -> b
+```
+
+### Example:
+
+```haskell
+doubleAndSumList :: [Int] -> Int
+doubleAndSumList = foldr (\x acc -> (x * 2) + acc) 0
+```
+
+```haskell
+doubleAndSumList [1, 2, 3, 4]
+-- 4 * 2 + 0 = 8
+-- 3 * 2 + 8 = 14
+-- 2 * 2 + 14 = 18
+-- 1 * 2 + 18 = 20
+
+
+```
