@@ -239,7 +239,6 @@ example2 = insertH 3 333 $ insertH 2 22 $ insertH 11 1 $ insertH 1 111 $ emptyHa
 
 
 ```
-lab2                > test (suite: lab2-test)
 Dictionary Tests
   Unit tests
     Insert test:                          OK
@@ -278,7 +277,6 @@ Dictionary Tests
     Map doesn't change elemetsCount:      OK
       +++ OK, passed 100 tests.
 All 9 tests passed (0.07s)
-lab2                > Test suite lab2-test passed
 ```
 
 ---
