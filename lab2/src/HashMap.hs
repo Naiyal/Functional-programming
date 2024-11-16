@@ -37,10 +37,6 @@ someFunc :: IO ()
 someFunc = putStrLn "someFunc"
 
 
-
-
-------- HashMap type -------
-
 type Bucket k v = [(k, v)]
 
 
@@ -78,11 +74,6 @@ instance (Hashable k, Arbitrary k, Arbitrary v) => Arbitrary (HashMap k v) where
         
 
 
-
-
-
-------- Util functions  -------
-
 emptyHashMap :: Int -> HashMap k v 
 emptyHashMap bucketsCount = HashMap {
                                         buckets = V.replicate bucketsCount [],
@@ -117,9 +108,6 @@ countBuckets :: HashMap k v -> Int
 countBuckets hashMap = length $ buckets hashMap
 
 
-
-
-------- Basic functions  -------
 
 lookupH :: (Hashable k) => k -> HashMap k v -> Maybe v 
 lookupH k hashMap =  if null res then Nothing else Just (snd $ head res)
@@ -201,13 +189,3 @@ mapH func hashMap = foldrH (uncurry insertH . func) (emptyHashMap $ V.length $ b
 filterH :: Hashable k => ((k, v) -> Bool) -> HashMap k v -> HashMap k v
 filterH predic hashMap = foldrH (\el hm -> if predic el then uncurry insertH el hm else hm) (clearHashMap hashMap) hashMap
 
-
-
-
-------- Examples  -------
-
-example :: HashMap Int String 
-example = insertH 3 "D" $ insertH 2 "C" $ insertH 11 "B" $ insertH 1 "A" $ emptyHashMap 10   
-
-example2 :: HashMap Int Int 
-example2 = insertH 3 333 $ insertH 2 22 $ insertH 11 1 $ insertH 1 111 $ emptyHashMap 10   
