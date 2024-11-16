@@ -178,10 +178,17 @@ main = do
     quickCheck prop_sumPrimesEquivalence
     quickCheck prop_sumPrimesLessThanLimit
     quickCheck prop_sumPrimesSmall
-    print testSumPrimes10
+    
 
-
+*Main>quickCheck prop_sumPrimesArePrimes
 +++ OK, passed 100 tests.
+*Main>quickCheck prop_sumPrimesEquivalence
++++ OK, passed 100 tests.
+*Main>quickCheck prop_sumPrimesLessThanLimit
++++ OK, passed 100 tests.
+*Main>quickCheck prop_sumPrimesSmall
++++ OK, passed 100 tests.
+
 ```
 
 
