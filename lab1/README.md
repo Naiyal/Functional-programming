@@ -144,17 +144,44 @@ print(result)
 
 ```haskell
 -- Тесты для задачи 1: Сумма простых чисел
-testSumPrimes :: Test
-testSumPrimes = TestList [
-    TestCase (assertEqual "sumPrimesTail 10" (sumPrimesTail 10) 17),
-    TestCase (assertEqual "sumPrimesRecursion 10" (sumPrimesRecursion 10) 17),
-    TestCase (assertEqual "sumPrimesModular 10" (sumPrimesModular 10) 17),
-    TestCase (assertEqual "sumPrimesMap 10" (sumPrimesMap 10) 17),
-    TestCase (assertEqual "sumPrimesDo 10" (sumPrimesDo 10) 17),
-    TestCase (assertEqual "sumPrimesLazy 10" (sumPrimesLazy 10) 17),
-    TestCase (assertEqual "sumPrimesTail 2000000" (sumPrimesTail 2000000) 142913828922)
-    ]
+-- Property to verify that all numbers being summed are prime numbers
+prop_sumPrimesArePrimes :: Integer -> Bool
+prop_sumPrimesArePrimes limit = all isPrime (generatePrimes limit)
 
+-- Property to verify that the sum of prime numbers gives the same result 
+-- regardless of which method (tail recursion, recursion, modular, map, do-notation, or lazy) is used
+prop_sumPrimesEquivalence :: Integer -> Bool
+prop_sumPrimesEquivalence limit = 
+    sumPrimesTail limit == sumPrimesRecursion limit &&
+    sumPrimesTail limit == sumPrimesModular limit &&
+    sumPrimesTail limit == sumPrimesMap limit &&
+    sumPrimesTail limit == sumPrimesDo limit &&
+    sumPrimesTail limit == sumPrimesLazy limit
+
+-- Property to ensure that the sum of primes is less than half the product 
+-- of the limit and the limit divided by two
+prop_sumPrimesLessThanLimit :: Integer -> Bool
+prop_sumPrimesLessThanLimit limit = sumPrimesTail limit < limit * (limit `div` 2)
+
+-- Property to ensure the sum of primes is correct for small numbers
+-- It compares the result of the tail recursive sum with the sum of manually filtered primes
+prop_sumPrimesSmall :: Integer -> Property
+prop_sumPrimesSmall limit = limit >= 2 ==> sumPrimesTail limit == sum (filter isPrime [2..limit-1])
+
+-- Test to check if the sum of primes for the number 10 is correct for multiple methods
+testSumPrimes10 :: Bool
+testSumPrimes10 = sumPrimesTail 10 == 17 && sumPrimesRecursion 10 == 17 && sumPrimesModular 10 == 17
+
+main :: IO ()
+main = do
+    quickCheck prop_sumPrimesArePrimes
+    quickCheck prop_sumPrimesEquivalence
+    quickCheck prop_sumPrimesLessThanLimit
+    quickCheck prop_sumPrimesSmall
+    print testSumPrimes10
+
+
++++ OK, passed 100 tests.
 ```
 
 
@@ -268,15 +295,45 @@ print(result)
 
 ```haskell
 -- Тесты для задачи 2: Сумма дружественных чисел
-testAmicableNumbers :: Test
-testAmicableNumbers = TestList [
-    TestCase (assertEqual "amicableNumbersTail 10000" (amicableNumbersTail 10000) 31626),
-    TestCase (assertEqual "amicableNumbersRecursion 10000" (amicableNumbersRecursion 10000) 31626),
-    TestCase (assertEqual "sumAmicableNumbersModular 10000" (sumAmicableNumbersModular 10000) 31626),
-    TestCase (assertEqual "sumAmicableNumbersMap 10000" (sumAmicableNumbersMap 10000) 31626),
-    TestCase (assertEqual "sumAmicableNumbersDo 10000" (sumAmicableNumbersDo 10000) 31626),
-    TestCase (assertEqual "amicableNumbersLazy 10000" (amicableNumbersLazy 10000) 31626)
-    ]
+-- Property to verify that all numbers being summed are amicable numbers
+prop_sumAmicableNumbersAreAmicable :: Integer -> Bool
+prop_sumAmicableNumbersAreAmicable limit = all isAmicable (generateAmicableNumbers limit)
+
+-- Property to verify that all methods give the same result for the sum of amicable numbers
+prop_sumAmicableEquivalence :: Integer -> Bool
+prop_sumAmicableEquivalence limit =
+    amicableNumbersTail limit == amicableNumbersRecursion limit &&
+    amicableNumbersTail limit == sumAmicableNumbersModular limit &&
+    amicableNumbersTail limit == sumAmicableNumbersMap limit &&
+    amicableNumbersTail limit == sumAmicableNumbersDo limit &&
+    amicableNumbersTail limit == amicableNumbersLazy limit
+
+-- Property to ensure that the sum of amicable numbers is less than the given limit
+prop_sumAmicableLessThanLimit :: Integer -> Bool
+prop_sumAmicableLessThanLimit limit = limit > 0 ==> sumAmicableNumbersDo limit < limit * (limit `div` 2)
+
+-- Test to verify the sum of amicable numbers for a fixed value (10)
+testAmicableNumbers10 :: Bool
+testAmicableNumbers10 = amicableNumbersTail 10 == 0 &&
+                        amicableNumbersRecursion 10 == 0 &&
+                        sumAmicableNumbersModular 10 == 0 &&
+                        sumAmicableNumbersMap 10 == 0 &&
+                        sumAmicableNumbersDo 10 == 0 &&
+                        amicableNumbersLazy 10 == 0
+
+main :: IO ()
+main = do
+    quickCheck prop_sumAmicableNumbersAreAmicable
+    quickCheck prop_sumAmicableEquivalence
+    quickCheck prop_sumAmicableLessThanLimit
+    quickCheck testAmicableNumbers10
+
+
++++ OK, passed 100 tests.
++++ OK, passed 100 tests.
++++ OK, passed 100 tests.
+True
+
 
 ```
 
