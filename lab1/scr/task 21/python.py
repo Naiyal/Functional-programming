@@ -14,3 +14,7 @@ def sum_amicable(limit):
 # Использование
 result = sum_amicable(10000)
 print(result)
+
+
+
+
