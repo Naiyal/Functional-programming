@@ -27,3 +27,7 @@ jobs:
 
       - name: Build project
         run: cabal build
+
+        
+
+        //ci
