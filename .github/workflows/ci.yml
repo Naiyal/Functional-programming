@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set up GHC (Glasgow Haskell Compiler)
-      uses: actions/setup-haskell@v3
+      uses: actions/setup-haskell@v2  # تم تغيير الإصدار إلى v2
       with:
         ghc-version: '9.2.1'   # تحديد إصدار GHC الذي تستخدمه
 
