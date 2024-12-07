@@ -16,10 +16,11 @@ jobs:
     - name: Check out code
       uses: actions/checkout@v3
 
-    - name: Set up GHC (Glasgow Haskell Compiler)
-      uses: actions/setup-haskell@v2
+    - name: Set up Haskell with GHC
+      uses: actions/setup-haskell@v1
       with:
         ghc-version: '9.2.1'
+        cabal-version: '3.6.2.0'
 
     - name: Install dependencies
       run: |
