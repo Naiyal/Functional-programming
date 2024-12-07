@@ -1,49 +1,39 @@
-name: haskell
+name: Haskell CI
 
 on:
   push:
     branches:
       - main
-    paths:
-      - '**.hs'
-      - '.github/workflows/haskell.yaml'
-
   pull_request:
     branches:
       - main
-    paths:
-      - '**.hs'
-      - '.github/workflows/haskell.yaml'
-
 
 jobs:
-  hlint:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
+    - name: Check out code
+      uses: actions/checkout@v3
 
-    - name: 'Set up HLint'
-      uses: haskell-actions/hlint-setup@v2
-
-    - name: 'Run HLint'
-      uses: haskell-actions/hlint-run@v2
+    - name: Set up GHC (Glasgow Haskell Compiler)
+      uses: actions/setup-haskell@v2
       with:
-        path: "."
-        fail-on: warning
-        
-  lab2_test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
+        ghc-version: '9.2.1'
 
-    - name: 'Set up Haskell with Stack'
-      uses: haskell-actions/setup@v2
-      with:
-        ghc-version: '8.8.3'
-        enable-stack: true
-        stack-version: 'latest'
+    - name: Install dependencies
+      run: |
+        cabal update
+        cabal install --only-dependencies
 
-    - name: 'Run lab2 tests'
-      working-directory: ./lab-hashmap
-      run: stack test
-  
+    - name: Install HLint
+      run: cabal install hlint
+
+    - name: Run HLint
+      run: hlint .
+
+    - name: Build the project
+      run: cabal build
+
+    - name: Run tests
+      run: cabal test
