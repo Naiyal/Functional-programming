@@ -18,7 +18,7 @@ library
 
 test-suite lab1-test-task10
   type:                exitcode-stdio-1.0
-  main-is:             src/task\ 10/Test.hs
+  main-is:             src/Test.hs
   build-depends:       base >= 4.14 && < 5,
                         HUnit >= 1.6.0.0,
                         lab1
@@ -26,7 +26,7 @@ test-suite lab1-test-task10
 
 test-suite lab1-test-task23
   type:                exitcode-stdio-1.0
-  main-is:             src/task\ 21/Test.hs
+  main-is:             src/Test.hs
   build-depends:       base >= 4.14 && < 5,
                         HUnit >= 1.6.0.0,
                         lab1
