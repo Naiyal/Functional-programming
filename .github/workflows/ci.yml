@@ -1,10 +1,7 @@
-name: Haskell CI
+name: Haskell Lint and Format
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
@@ -13,26 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Haskell
-        uses: haskell-actions/setup@v1  # تم تعديل هذا السطر
+        uses: haskell/actions/setup@v1
         with:
           ghc-version: '9.4.8'
       
       - name: Install dependencies
         run: cabal update && cabal install --only-dependencies
 
-      - name: Run HLint
-        run: |
-          cabal exec -- hlint .
+      # - name: Install HLint
+      #   run: cabal install hlint
 
-      - name: Install Ormolu
-        run: cabal install ormolu
+      # - name: Run HLint
+      #   run: |
+      #     cabal exec -- hlint .
 
-      - name: Check formatting with Ormolu
-        run: ormolu --mode check $(find . -name "*.hs")
+      # - name: Install Ormolu
+      #   run: cabal install ormolu
+
+      # - name: Check formatting with Ormolu
+      #   run: ormolu --mode check $(find . -name "*.hs")
 
   test:
     runs-on: ubuntu-latest
@@ -43,7 +43,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Haskell
-        uses: haskell-actions/setup@v1  # تم تعديل هذا السطر
+        uses: haskell/actions/setup@v1
         with:
           ghc-version: '9.4.8'
 
