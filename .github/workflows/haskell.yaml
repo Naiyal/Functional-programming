@@ -19,8 +19,8 @@ jobs:
     - name: Set up Haskell with GHC
       uses: actions/setup-haskell@v1
       with:
-        ghc-version: '9.2.1'   # يمكنك تحديد إصدار GHC الذي تستخدمه
-        cabal-version: '3.6.2.0'  # يمكنك تحديد إصدار cabal أيضاً
+        ghc-version: '8.10.7'   # حاول استخدام إصدار آخر مثل 8.10.7 بدلاً من 9.2.1
+        cabal-version: '3.6.2.0'  # تحديد إصدار مناسب من cabal
 
     - name: Install dependencies
       run: |
