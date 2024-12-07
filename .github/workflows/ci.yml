@@ -19,7 +19,7 @@ jobs:
       - name: Set up Haskell
         uses: haskell/actions/setup-haskell@v1
         with:
-          ghc-version: '9.4.5'  
+          ghc-version: '9.4.5'
       - name: Install dependencies
         run: |
           cabal update
@@ -27,7 +27,4 @@ jobs:
 
       - name: Build project
         run: cabal build
-
         
-
-        //ci
