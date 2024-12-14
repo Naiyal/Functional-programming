@@ -1,40 +1,30 @@
-name: Haskell CI
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+name: main CI
+on: push
 jobs:
-  build:
+  hlint:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check out code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
-    - name: Set up Haskell with GHC
-      uses: actions/setup-haskell@v2
+    - name: 'Set up HLint'
+      uses: rwe/actions-hlint-setup@v1
       with:
-        ghc-version: '8.10.7'   # حاول استخدام إصدار آخر مثل 8.10.7 بدلاً من 9.2.1
-        cabal-version: '3.6.2.0'  # تحديد إصدار مناسب من cabal
+        version: '3.1.6'
 
-    - name: Install dependencies
+    - name: 'Run HLint'
+      uses: rwe/actions-hlint-run@v2
+      with:
+        path: '["src/"]'
+        fail-on: suggestion
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: 'Set up HUnit'
       run: |
-        cabal update
-        cabal install --only-dependencies
-
-    - name: Install HLint
-      run: cabal install hlint
-
-    - name: Run HLint
-      run: hlint .
-
-    - name: Build the project
-      run: cabal build
-
-    - name: Run tests
-      run: cabal test
+        stack install HUnit
+    - name: 'Run Tests'
+      run:
+        stack test
