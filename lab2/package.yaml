@@ -2,7 +2,7 @@ name:                lab2
 version:             0.1.0.0
 github:              "githubuser/lab2"
 license:             BSD-3-Clause
-author:             
+author:              
 maintainer:          
 copyright:           
 
@@ -41,7 +41,7 @@ library:
   source-dirs:           src
 
 executables:
-  lab-hashmap-exe:
+  lab2-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -52,7 +52,7 @@ executables:
     - lab2
 
 tests:
-  lab-hashmap-test:
+  lab2-test:
     main:                Tests.hs
     source-dirs:         test
     ghc-options:
@@ -60,4 +60,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - lab-hashmap
+    - lab2
