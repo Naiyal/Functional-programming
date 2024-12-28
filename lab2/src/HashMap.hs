@@ -1,3 +1,5 @@
+
+
 module HashMap 
 (
     Bucket, 
@@ -31,6 +33,8 @@ import Data.Vector (Vector, (!), (//))
 import qualified Data.Vector as V
 import Test.Tasty.QuickCheck (Arbitrary (arbitrary), choose, listOf)
 
+
+import Data.Bifunctor (second)
 import Dict
 
 someFunc :: IO ()
@@ -180,7 +184,8 @@ mapV func hashMap = HashMap {
     where
     newBuckets = mapBuckets $ buckets hashMap
 
-    mapOneBucket = map (\(k, v) -> (k, func v))
+    -- mapOneBucket = map (\(k, v) -> (k, func v))
+    mapOneBucket = map (second func)
     
     mapBuckets bucketsVector | V.null bucketsVector = V.empty 
                              | otherwise = mapOneBucket (V.head bucketsVector) `V.cons` mapBuckets (V.tail bucketsVector)
