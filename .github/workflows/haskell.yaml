@@ -44,6 +44,6 @@ jobs:
         stack-version: 'latest'
 
     - name: 'Run lab2 tests'
-      working-directory: ./lab-hashmap
+      working-directory: ./lab2
       run: stack test
   
