@@ -11,7 +11,7 @@ homepage:       https://github.com/githubuser/lab2#readme
 bug-reports:    https://github.com/githubuser/lab2/issues
 author:         fahed
 maintainer:     fahed@gmail.com
-copyright:      fahed
+copyright:      2024 fahed
 license:        BSD-3-Clause
 license-file:   LICENSE
 build-type:     Simple
