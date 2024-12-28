@@ -3,14 +3,14 @@ name: haskell
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - '**.hs'
       - '.github/workflows/haskell.yaml'
 
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - '**.hs'
       - '.github/workflows/haskell.yaml'
