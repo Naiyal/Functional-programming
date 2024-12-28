@@ -12,7 +12,7 @@ bug-reports:    https://github.com/githubuser/lab2/issues
 author:         
 maintainer:     
 copyright:      
-license:        BSD-3-Clause
+license:        
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
