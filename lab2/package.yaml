@@ -2,9 +2,9 @@ name:                lab2
 version:             0.1.0.0
 github:              "githubuser/lab2"
 license:             BSD-3-Clause
-author:              
-maintainer:          
-copyright:           
+author:              "fahed"
+maintainer:          "fahed"
+copyright:           "fahed"
 
 extra-source-files:
 - README.md
